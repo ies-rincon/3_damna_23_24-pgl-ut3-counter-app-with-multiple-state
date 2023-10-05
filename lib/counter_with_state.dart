@@ -14,11 +14,6 @@ class CounterWithState extends StatefulWidget {
 }
 
 class _CounterWithStateState extends State<CounterWithState> {
-  static const List<Widget> _widgetOptions = <Widget>[
-    Page1(),
-    Page2(),
-    Page3(),
-  ];
   @override
   Widget build(BuildContext context) {
     final counterProvider = context.watch<CounterProvider>();
@@ -34,8 +29,15 @@ class _CounterWithStateState extends State<CounterWithState> {
                   )
                 : Container(),
           ]),
-      body: Center(
-        child: _widgetOptions.elementAt(indexProvider.page),
+      body: PageView(
+        controller: indexProvider.pageController,
+        onPageChanged: indexProvider.setPage,
+        scrollDirection: Axis.horizontal,
+        children: const <Widget>[
+          Page1(),
+          Page2(),
+          Page3(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
