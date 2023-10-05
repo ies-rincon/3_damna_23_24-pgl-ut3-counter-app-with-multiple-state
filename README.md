@@ -30,3 +30,70 @@ Para obtener más información sobre cómo agregar interactividad a las aplicaci
 ## Navegación por Pestañas
 
 Si deseas explorar la navegación por pestañas en Flutter, consulta la documentación de [BottomNavigationBar](https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html).
+
+## Ejemplo de Uso
+
+A continuación, se muestra un ejemplo de cómo utilizar esta aplicación de contador con Provider:
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Counter App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => CounterProvider()),
+        ],
+        child: MyHomePage(),
+      ),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final counterProvider = context.watch<CounterProvider>();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Counter App'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Contador:',
+              style: TextStyle(fontSize: 24),
+            ),
+            Text(
+              '${counterProvider.counter}',
+              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: () => counterProvider.increment(),
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          ),
+          SizedBox(height: 16),
+          FloatingActionButton(
+            onPressed: () => counterProvider.decrement(),
+            tooltip: 'Decrement',
+            child: Icon(Icons.remove),
+          ),
+        ],
+      ),
+    );
+  }
+}
